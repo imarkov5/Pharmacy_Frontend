@@ -12,6 +12,20 @@ a {
 ul {
   list-style: none;
 }
+.wrapper {
+  width: 100%;
+  padding: 2rem;
+  min-height: calc(100vh - 80px); //80 px - the height of the navbar
+}
+.content {
+  @include d-flex(
+    column,
+    flex-start,
+    center
+  );
+  gap: 2rem;
+}
+
 
 
 
