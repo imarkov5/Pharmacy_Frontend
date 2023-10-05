@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from "react";
-//import "./pharmacies.scss";
 import httpModule from "../../http.module";
 import { IPharmacy } from "../../global.types";
 import {

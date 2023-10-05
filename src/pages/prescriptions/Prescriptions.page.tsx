@@ -9,9 +9,10 @@ import { useNavigate } from "react-router-dom";
 
 const Prescriptions = () => {
   const [prescriptions, setPrescriptions] = useState<IPrescription[]>([]);
+
   const [loading, setLoading] = useState<boolean>(false);
   const redirect = useNavigate();
-  
+
   useEffect(() => {
     setLoading(true);
     httpModule
@@ -26,12 +27,15 @@ const Prescriptions = () => {
         setLoading(false);
       });
   }, []);
-  
+
   return (
     <div className="content prescriptions">
       <div className="heading">
         <h2>Prescriptions</h2>
-        <Button variant="outlined" onClick={() => redirect("/prescriptions/add")}>
+        <Button
+          variant="outlined"
+          onClick={() => redirect("/prescriptions/add")}
+        >
           <Add />
         </Button>
       </div>

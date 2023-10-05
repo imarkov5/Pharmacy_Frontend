@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar.component";
 import CustomLinearProgress from "./components/custom-linear-progress/CustomLinearProgress.component";
 import Pharmacy from "./pages/pharmacies/Pharmacy.page";
+import Prescription from "./pages/prescriptions/Prescription.page";
 
 const Pharmacies = lazy(() => import("./pages/pharmacies/Pharmacies.page"));
 const Prescriptions = lazy(
@@ -32,6 +33,7 @@ function App() {
             <Route path="/prescriptions">
               <Route index element={<Prescriptions />} />
               <Route path="add" element={<AddPrescription />} />
+              <Route path=":id" element={<Prescription />} />
             </Route>
             <Route path="/pharmacists">
               <Route index element={<Pharmacists />} />
