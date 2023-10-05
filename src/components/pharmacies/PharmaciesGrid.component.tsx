@@ -1,11 +1,15 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid/models";
 import moment from "moment";
 import { IPharmacy } from "../../global.types";
 
 const column: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 100 },
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+  },
   { field: "name", headerName: "Name", width: 200 },
   {
     field: "numberOfFilledPrescriptions",
@@ -20,7 +24,8 @@ const column: GridColDef[] = [
       return (
         <>
           <div>
-          {params.value.street}, {params.value.city}, {params.value.state} {params.value.zip}
+            {params.value.street}, {params.value.city}, {params.value.state}{" "}
+            {params.value.zip}
           </div>
         </>
       );
@@ -38,6 +43,22 @@ const column: GridColDef[] = [
     headerName: "Updated Date",
     width: 200,
     renderCell: (params) => moment(params.row.updatedDate).format("YYYY-MM-DD"),
+  },
+  {
+    field: "action",
+    headerName: "Actions",
+    sortable: false,
+    width: 200,
+    renderCell: (params) => (
+      <div>
+        <Button variant="outlined" color="primary">
+          <a href={`pharmacies/${params.row.id}`}>View</a>
+        </Button>
+        <Button variant="outlined" color="secondary">
+          <a href={`pharmacies/update/${params.row.id}`}>Update</a>
+        </Button>
+      </div>
+    ),
   },
 ];
 
