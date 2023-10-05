@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./pharmacies.scss";
-import httpModule from "../http.module";
-import { IPharmacy } from "../global.types";
+import httpModule from "../../http.module";
+import { IPharmacy } from "../../global.types";
 import { CircularProgress } from "@mui/material";
 
-import PharmaciesGrid from "../components/pharmacies/PharmaciesGrid.component";
+import PharmaciesGrid from "../../components/pharmacies/PharmaciesGrid.component";
 
 const Pharmacies = () => {
   const [pharmacies, setPharmacies] = useState<IPharmacy[]>([]);

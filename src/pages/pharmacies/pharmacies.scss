@@ -1,4 +1,4 @@
-@import "../mixins";
+@import "../../mixins";
 .pharmacies {
   .heading {
     @include d-flex(row, space-between, center);
