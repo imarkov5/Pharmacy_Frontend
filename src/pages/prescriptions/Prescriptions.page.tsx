@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import "./prescriptions.scss";
 import httpModule from "../../http.module";
 import { IPrescription } from "../../global.types";
-import { CircularProgress } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import PrescriptionsGrid from "../../components/prescriptions/PrescriptionsGrid.component";
+import { Add } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Prescriptions = () => {
   const [prescriptions, setPrescriptions] = useState<IPrescription[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const redirect = useNavigate();
   
   useEffect(() => {
     setLoading(true);
@@ -28,6 +31,9 @@ const Prescriptions = () => {
     <div className="content prescriptions">
       <div className="heading">
         <h2>Prescriptions</h2>
+        <Button variant="outlined" onClick={() => redirect("/prescriptions/add")}>
+          <Add />
+        </Button>
       </div>
       {loading ? (
         <CircularProgress size={100} />
