@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import "./pharmacists.scss";
 import httpModule from "../../http.module";
 import { IPharmacist } from "../../global.types";
-import { CircularProgress } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import PharmacistsGrid from "../../components/pharmacists/PharmacistsGrid.component";
+import { useNavigate } from "react-router-dom";
+import { Add } from "@mui/icons-material";
 
 const Pharmacists = () => {
   const [pharmacists, setPharmacists] = useState<IPharmacist[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const redirect = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -28,6 +31,9 @@ const Pharmacists = () => {
     <div className="content pharmacists">
       <div className="heading">
         <h2>Pharmacists</h2>
+        <Button variant="outlined" onClick={() => redirect("/pharmacists/add")}>
+          <Add />
+        </Button>
       </div>
       {loading ? (
         <CircularProgress size={100} />
