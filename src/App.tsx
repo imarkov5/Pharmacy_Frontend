@@ -2,8 +2,6 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar.component";
 import CustomLinearProgress from "./components/custom-linear-progress/CustomLinearProgress.component";
-import Pharmacy from "./pages/pharmacies/Pharmacy.page";
-import Prescription from "./pages/prescriptions/Prescription.page";
 
 const Pharmacies = lazy(() => import("./pages/pharmacies/Pharmacies.page"));
 const Prescriptions = lazy(
@@ -17,6 +15,13 @@ const AddPrescription = lazy(
 const AddPharmacist = lazy(
   () => import("./pages/pharmacists/AddPharmacist.page")
 );
+const Pharmacy = lazy(() => import("./pages/pharmacies/Pharmacy.page"));
+const Prescription = lazy(
+  () => import("./pages/prescriptions/Prescription.page")
+);
+const UpdatePharmacy = lazy(
+  () => import("./pages/pharmacies/UpdatePharmacy.page")
+);
 
 function App() {
   return (
@@ -29,6 +34,7 @@ function App() {
               <Route index element={<Pharmacies />} />
               <Route path="add" element={<AddPharmacy />} />
               <Route path=":id" element={<Pharmacy />} />
+              <Route path="update/:id" element={<UpdatePharmacy />} />
             </Route>
             <Route path="/prescriptions">
               <Route index element={<Prescriptions />} />

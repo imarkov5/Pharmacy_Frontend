@@ -35,7 +35,7 @@ const Pharmacy = () => {
           Id: {pharmacy?.id}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.primary">
-          {pharmacy?.name}
+          Pharmacy Name: {pharmacy?.name}
         </Typography>
         <Typography variant="body2">
           Number Of Filled Prescription: {pharmacy?.numberOfFilledPrescriptions}
