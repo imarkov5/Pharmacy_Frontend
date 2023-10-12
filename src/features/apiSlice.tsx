@@ -12,7 +12,7 @@ export const apiSlice = createApi({
       providesTags: ["Pharmacies"],
     }),
 
-    getPharmacyById: builder.query<ICreatePharmacyDto, string | void>({
+    getPharmacyById: builder.query<IPharmacy, string | void>({
       query: (id) => `pharmacy/get-pharmacy/${id}`,
       providesTags: ["Pharmacies"],
     }),
