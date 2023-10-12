@@ -4,8 +4,6 @@ import { GridColDef } from "@mui/x-data-grid/models";
 import moment from "moment";
 import { IPrescription } from "../../global.types";
 
-
-
 const column: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
   { field: "patientFirstName", headerName: "First Name", width: 100 },

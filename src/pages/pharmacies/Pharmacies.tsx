@@ -1,7 +1,7 @@
 import "./pharmacies.scss";
 import { Button, CircularProgress } from "@mui/material";
 import { useGetAllPharmaciesQuery } from "../../features/apiSlice";
-import PharmaciesGrid from "../../components/pharmacies/PharmaciesGrid.component";
+import PharmaciesGrid from "../../components/pharmacies/PharmaciesGrid";
 import { useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 

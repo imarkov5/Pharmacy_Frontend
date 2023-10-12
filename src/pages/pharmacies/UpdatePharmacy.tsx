@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./pharmacies.scss";
-import { ICreatePharmacyDto, IPharmacy } from "../../global.types";
+import { ICreatePharmacyDto } from "../../global.types";
 import {
   Button,
   FormControl,
@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import httpModule from "../../http.module";
+import { useGetPharmacyByIdQuery, useUpdatePharmacyMutation } from "../../features/apiSlice";
 
 const UpdatePharmacy = () => {
     const [pharmacy, setPharmacy] = useState<ICreatePharmacyDto>({
@@ -25,17 +25,9 @@ const UpdatePharmacy = () => {
   const { id } = useParams();
   const redirect = useNavigate();
 
-  useEffect(() => {
-    httpModule
-      .get<IPharmacy>(`/Pharmacy/get-pharmacy/${id}`)
-      .then((response) => {
-        setPharmacy(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
+  const { data , isLoading } = useGetPharmacyByIdQuery(id);
+  const [updatePharmacy] = useUpdatePharmacyMutation();
+  
 
   const handleClickSaveBtn = () => {
     if (
@@ -48,10 +40,8 @@ const UpdatePharmacy = () => {
       alert("Fill out all fields");
       return;
     }
-    httpModule
-      .put(`/Pharmacy/update-pharmacy/${id}`, pharmacy)
-      .then((response) => redirect("/pharmacies"))
-      .catch((error) => console.log(error));
+    updatePharmacy(pharmacy);
+    redirect("/pharmacies");
   };
   const handleClickBackBtn = () => {
     redirect("/pharmacies");

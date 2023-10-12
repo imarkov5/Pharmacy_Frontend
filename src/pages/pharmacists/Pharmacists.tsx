@@ -3,7 +3,7 @@ import "./pharmacists.scss";
 import httpModule from "../../http.module";
 import { IPharmacist } from "../../global.types";
 import { Button, CircularProgress } from "@mui/material";
-import PharmacistsGrid from "../../components/pharmacists/PharmacistsGrid.component";
+import PharmacistsGrid from "../../components/pharmacists/PharmacistsGrid";
 import { useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 

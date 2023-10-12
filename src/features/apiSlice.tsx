@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IPharmacy, IPrescription } from "../global.types";
+import { IPharmacist, IPharmacy, IPrescription } from "../global.types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "https://localhost:7137/api/" }),
-  tagTypes: ["Pharmacies", "Prescriptions"],
+  tagTypes: ["Pharmacies", "Prescriptions", "Pharmacists"],
 
   endpoints: (builder) => ({
     getAllPharmacies: builder.query<IPharmacy[], string | void>({
@@ -17,9 +17,22 @@ export const apiSlice = createApi({
       providesTags: ["Prescriptions"],
     }),
 
+    getAllPharmacists: builder.query<IPharmacist[], string | void>({
+      query: () => "pharmacist/get-all-pharmacists",
+      providesTags: ["Pharmacists"],
+    }),
+
     getPharmacyById: builder.query<IPharmacy, string | void>({
       query: (id) => `pharmacy/get-pharmacy/${id}`,
       providesTags: ["Pharmacies"],
+    }),
+    getPrescriptionById: builder.query<IPrescription, string | void>({
+      query: (id) => `prescription/get-prescription/${id}`,
+      providesTags: ["Prescriptions"],
+    }),
+    getPharmacistById: builder.query<IPharmacist, string | void>({
+      query: (id) => `pharmacist/get-pharmacist/${id}`,
+      providesTags: ["Pharmacists"],
     }),
 
     addPharmacy: builder.mutation({
@@ -30,6 +43,15 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Pharmacies"],
     }),
+    addPrescription: builder.mutation({
+      query: (prescription) => ({
+        url: "prescription/add-prescription",
+        method: "POST",
+        body: prescription,
+      }),
+      invalidatesTags: ["Prescriptions"],
+    }),
+
     updatePharmacy: builder.mutation({
       query: (pharmacy) => ({
         url: `pharmacy/update-pharmacy/${pharmacy.id}`,
@@ -38,6 +60,7 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Pharmacies"],
     }),
+    
     deletePharmacy: builder.mutation({
       query: ({ id }) => ({
         url: `pharmacy/delete-pharmacy/${id}`,
@@ -51,8 +74,12 @@ export const apiSlice = createApi({
 export const {
   useGetAllPharmaciesQuery,
   useGetAllPrescriptionsQuery,
+  useGetAllPharmacistsQuery,
   useGetPharmacyByIdQuery,
+  useGetPrescriptionByIdQuery,
+  useGetPharmacistByIdQuery,
   useAddPharmacyMutation,
+  useAddPrescriptionMutation,
   useUpdatePharmacyMutation,
   useDeletePharmacyMutation,
 } = apiSlice;
