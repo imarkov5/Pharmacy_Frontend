@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./pharmacies.scss";
-import { ICreatePharmacyDto } from "../../global.types";
+import { ICreatePharmacyDto, IPharmacy } from "../../global.types";
 import {
   Button,
   FormControl,
@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetPharmacyByIdQuery, useUpdatePharmacyMutation } from "../../features/apiSlice";
+import httpModule from "../../http.module";
 
 const UpdatePharmacy = () => {
     const [pharmacy, setPharmacy] = useState<ICreatePharmacyDto>({
@@ -25,8 +26,21 @@ const UpdatePharmacy = () => {
   const { id } = useParams();
   const redirect = useNavigate();
 
-  const { data , isLoading } = useGetPharmacyByIdQuery(id);
+  //const { data , isLoading } = useGetPharmacyByIdQuery(id);
   const [updatePharmacy] = useUpdatePharmacyMutation();
+
+  useEffect(() => {
+    httpModule
+      .get<IPharmacy>(`/Pharmacy/get-pharmacy/${id}`)
+      .then((response) => {
+        setPharmacy(response.data);
+      })
+      .catch((error) => {
+        alert("Error");
+        console.log(error);
+      });
+  }, []);
+  
   
 
   const handleClickSaveBtn = () => {
