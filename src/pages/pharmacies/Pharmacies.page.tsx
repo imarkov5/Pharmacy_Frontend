@@ -1,32 +1,13 @@
-import { useEffect, useState } from "react";
 import "./pharmacies.scss";
-import httpModule from "../../http.module";
-import { IPharmacy } from "../../global.types";
 import { Button, CircularProgress } from "@mui/material";
-
+import { useGetAllPharmaciesQuery } from "../../features/apiSlice";
 import PharmaciesGrid from "../../components/pharmacies/PharmaciesGrid.component";
 import { useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 
 const Pharmacies = () => {
-  const [pharmacies, setPharmacies] = useState<IPharmacy[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { data: pharmacies, isLoading } = useGetAllPharmaciesQuery();
   const redirect = useNavigate();
-
-  useEffect(() => {
-    setLoading(true);
-    httpModule
-      .get<IPharmacy[]>("/Pharmacy/get-all-pharmacies")
-      .then((response) => {
-        setPharmacies(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
 
   return (
     <div className="content pharmacies">
@@ -36,13 +17,11 @@ const Pharmacies = () => {
           <Add />
         </Button>
       </div>
-      {loading ? (
+      {isLoading ? (
         <CircularProgress size={100} />
-      ) : pharmacies.length === 0 ? (
-        <h1>No Pharmacies</h1>
-      ) : (
+      ) : pharmacies ? (
         <PharmaciesGrid data={pharmacies} />
-      )}
+      ) : null}
     </div>
   );
 };
