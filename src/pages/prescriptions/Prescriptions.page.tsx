@@ -1,32 +1,13 @@
-import { useEffect, useState } from "react";
 import "./prescriptions.scss";
-import httpModule from "../../http.module";
-import { IPrescription } from "../../global.types";
 import { Button, CircularProgress } from "@mui/material";
 import PrescriptionsGrid from "../../components/prescriptions/PrescriptionsGrid.component";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useGetAllPrescriptionsQuery } from "../../features/apiSlice";
 
 const Prescriptions = () => {
-  const [prescriptions, setPrescriptions] = useState<IPrescription[]>([]);
-
-  const [loading, setLoading] = useState<boolean>(false);
+  const { data: prescriptions, isLoading } = useGetAllPrescriptionsQuery();
   const redirect = useNavigate();
-
-  useEffect(() => {
-    setLoading(true);
-    httpModule
-      .get<IPrescription[]>("/Prescription/get-all-prescriptions")
-      .then((response) => {
-        setPrescriptions(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
 
   return (
     <div className="content prescriptions">
@@ -39,13 +20,11 @@ const Prescriptions = () => {
           <Add />
         </Button>
       </div>
-      {loading ? (
+      {isLoading ? (
         <CircularProgress size={100} />
-      ) : prescriptions.length === 0 ? (
-        <h1>No prescriptions</h1>
-      ) : (
+      ) : prescriptions ? (
         <PrescriptionsGrid data={prescriptions} />
-      )}
+      ) : null}
     </div>
   );
 };

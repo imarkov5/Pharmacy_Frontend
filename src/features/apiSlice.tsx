@@ -1,15 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ICreatePharmacyDto, IPharmacy } from "../global.types";
+import { IPharmacy, IPrescription } from "../global.types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "https://localhost:7137/api/" }),
-  tagTypes: ["Pharmacies"],
+  tagTypes: ["Pharmacies", "Prescriptions"],
 
   endpoints: (builder) => ({
     getAllPharmacies: builder.query<IPharmacy[], string | void>({
       query: () => "pharmacy/get-all-pharmacies",
       providesTags: ["Pharmacies"],
+    }),
+
+    getAllPrescriptions: builder.query<IPrescription[], string | void>({
+      query: () => "prescription/get-all-prescriptions",
+      providesTags: ["Prescriptions"],
     }),
 
     getPharmacyById: builder.query<IPharmacy, string | void>({
@@ -45,6 +50,7 @@ export const apiSlice = createApi({
 });
 export const {
   useGetAllPharmaciesQuery,
+  useGetAllPrescriptionsQuery,
   useGetPharmacyByIdQuery,
   useAddPharmacyMutation,
   useUpdatePharmacyMutation,

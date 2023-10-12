@@ -5,11 +5,12 @@ import CustomLinearProgress from "./components/custom-linear-progress/CustomLine
 import Pharmacies from "./pages/pharmacies/Pharmacies.page";
 import Pharmacy from "./pages/pharmacies/Pharmacy.page";
 import AddPharmacy from "./pages/pharmacies/AddPharmacy.page";
+import Prescriptions from "./pages/prescriptions/Prescriptions.page";
 
 // const Pharmacies = lazy(() => import("./pages/pharmacies/Pharmacies.page"));
-const Prescriptions = lazy(
-  () => import("./pages/prescriptions/Prescriptions.page")
-);
+// const Prescriptions = lazy(
+//   () => import("./pages/prescriptions/Prescriptions.page")
+// );
 const Pharmacists = lazy(() => import("./pages/pharmacists/Pharmacists.page"));
 //const AddPharmacy = lazy(() => import("./pages/pharmacies/AddPharmacy.page"));
 const AddPrescription = lazy(
