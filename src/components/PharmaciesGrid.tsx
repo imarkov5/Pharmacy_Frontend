@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid/models";
 import moment from "moment";
-import { IPharmacy } from "../../global.types";
+import { IPharmacy } from "../global.types";
 
 const column: GridColDef[] = [
   {

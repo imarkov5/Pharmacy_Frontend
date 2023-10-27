@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import "./pharmacies.scss";
+import "./pharmacists.scss";
 import httpModule from "../../http.module";
-import { IPharmacy } from "../../global.types";
+import { IPharmacist } from "../../global.types";
 import { Button, CircularProgress } from "@mui/material";
-
-import PharmaciesGrid from "../../components/pharmacies/PharmaciesGrid.component";
+import PharmacistsGrid from "../../components/PharmacistsGrid";
 import { useNavigate } from "react-router-dom";
 import { Add } from "@mui/icons-material";
 
-const Pharmacies = () => {
-  const [pharmacies, setPharmacies] = useState<IPharmacy[]>([]);
+const Pharmacists = () => {
+  const [pharmacists, setPharmacists] = useState<IPharmacist[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const redirect = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     httpModule
-      .get<IPharmacy[]>("/Pharmacy/get-all-pharmacies")
+      .get<IPharmacist[]>("/Pharmacist/get-all-pharmacists")
       .then((response) => {
-        setPharmacies(response.data);
+        setPharmacists(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -29,22 +28,22 @@ const Pharmacies = () => {
   }, []);
 
   return (
-    <div className="content pharmacies">
+    <div className="content pharmacists">
       <div className="heading">
-        <h2>Pharmacies</h2>
-        <Button variant="outlined" onClick={() => redirect("/pharmacies/add")}>
+        <h2>Pharmacists</h2>
+        <Button variant="outlined" onClick={() => redirect("/pharmacists/add")}>
           <Add />
         </Button>
       </div>
       {loading ? (
         <CircularProgress size={100} />
-      ) : pharmacies.length === 0 ? (
-        <h1>No Pharmacies</h1>
+      ) : pharmacists.length === 0 ? (
+        <h1>No Pharmacists</h1>
       ) : (
-        <PharmaciesGrid data={pharmacies} />
+        <PharmacistsGrid data={pharmacists} />
       )}
     </div>
   );
 };
 
-export default Pharmacies;
+export default Pharmacists;

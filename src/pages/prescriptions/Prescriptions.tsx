@@ -3,7 +3,7 @@ import "./prescriptions.scss";
 import httpModule from "../../http.module";
 import { IPrescription } from "../../global.types";
 import { Button, CircularProgress } from "@mui/material";
-import PrescriptionsGrid from "../../components/prescriptions/PrescriptionsGrid.component";
+import PrescriptionsGrid from "../../components/PrescriptionsGrid";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
