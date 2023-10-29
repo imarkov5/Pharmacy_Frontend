@@ -2,9 +2,10 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import CustomLinearProgress from "./components/CustomLinearProgress";
-import Pharmacies from "./pages/pharmacies/Pharmacies";
+// import Pharmacies from "./pages/pharmacies/Pharmacies";
 
 
+const Pharmacies = lazy(() => import("./pages/pharmacies/Pharmacies"));
 const Prescriptions = lazy(
   () => import("./pages/prescriptions/Prescriptions")
 );

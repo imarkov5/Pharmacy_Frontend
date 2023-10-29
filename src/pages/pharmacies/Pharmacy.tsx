@@ -10,23 +10,25 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/storeHooks";
+import { fetchPharmacies, fetchPharmacyById, selectPostById } from "../../features/pharmacies/pharmaciesSlice";
 
 const Pharmacy = () => {
-  const [pharmacy, setPharmacy] = useState<IPharmacy>();
   const { id } = useParams();
-  const redirect = useNavigate();
-
+  const pharmacyId = Number(id);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const pharmacyStatus = useAppSelector((state) => state.pharmacies.status);
+  
+  const pharmacy = useAppSelector((state) => selectPostById(state, pharmacyId))
+  
   useEffect(() => {
-    httpModule
-      .get<IPharmacy>(`/Pharmacy/get-pharmacy/${id}`)
-      .then((response) => {
-        setPharmacy(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
+    if (pharmacyStatus === "idle") {
+      dispatch(fetchPharmacyById(pharmacyId));
+    }
+  }, [pharmacyStatus, dispatch]);
+
+  
 
   const card = (
     <Fragment>
@@ -47,7 +49,8 @@ const Pharmacy = () => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => redirect("/pharmacies")}>
+        {/* navigate(0) reloads the page to show all pharmacies*/}
+        <Button size="small" onClick={async() => {navigate("/pharmacies"); navigate(0)}}>
           Back
         </Button>
       </CardActions>

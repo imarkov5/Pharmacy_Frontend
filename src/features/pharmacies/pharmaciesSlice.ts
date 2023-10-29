@@ -25,6 +25,19 @@ export const fetchPharmacies = createAsyncThunk(
   }
 );
 
+export const fetchPharmacyById = createAsyncThunk(
+  "pharmacy/fetchPharmacyById",
+  async (pharmacyId : number) => {
+    const response = await fetch(
+      `https://localhost:7137/api/pharmacy/get-pharmacy/${pharmacyId}`,
+      {
+        method: "GET",
+      }
+    );
+    return (await response.json()) as IPharmacy;
+  }
+);
+
 const pharmaciesSlice = createSlice({
     name: "pharmacies",
     initialState,
@@ -43,9 +56,22 @@ const pharmaciesSlice = createSlice({
           state.status = "failed";
           //state.error = action.error.message;
         })
+        .addCase(fetchPharmacyById.pending, (state) => {
+          state.status = "loading";
+        })
+        .addCase(fetchPharmacyById.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.pharmacies = state.pharmacies.concat(action.payload);
+        })
+        .addCase(fetchPharmacyById.rejected, (state, action) => {
+          state.status = "failed";
+          state.error = action.error.message;
+        })
         
     },
   });
+
+  export const selectPostById = (state: { pharmacies: { pharmacies: IPharmacy[]; }; }, pharmacyId: number) => state.pharmacies.pharmacies.find(pharmacy => pharmacy.id === pharmacyId)
   
 //   export const selectAllPharmacies = (state: { pharmacies: { pharmacies: IPharmacy[]; }; }) => state.pharmacies.pharmacies;
 //   export const getAllPharmaciesStatus = (state: { pharmacies: { status: any; }; }) => state.pharmacies.status;

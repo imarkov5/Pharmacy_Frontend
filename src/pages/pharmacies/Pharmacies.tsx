@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import "./pharmacies.scss";
-import httpModule from "../../http.module";
-import { IPharmacy } from "../../global.types";
 import { Button, CircularProgress } from "@mui/material";
 
 import PharmaciesGrid from "../../components/PharmaciesGrid";
@@ -11,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../app/storeHooks";
 import { fetchPharmacies } from "../../features/pharmacies/pharmaciesSlice";
 
 const Pharmacies = () => {
-  const redirect = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const pharmacies = useAppSelector((state) => state.pharmacies.pharmacies);
   const pharmaciesStatus = useAppSelector((state) => state.pharmacies.status);
@@ -38,7 +36,7 @@ const Pharmacies = () => {
     <div className="content pharmacies">
       <div className="heading">
         <h2>Pharmacies</h2>
-        <Button variant="outlined" onClick={() => redirect("/pharmacies/add")}>
+        <Button variant="outlined" onClick={() => navigate("/pharmacies/add")}>
           <Add />
         </Button>
       </div>
