@@ -1,6 +1,4 @@
 import { Fragment, useEffect, useState } from "react";
-import httpModule from "../../http.module";
-import { IPharmacy } from "../../global.types";
 import {
   Box,
   Button,
@@ -11,7 +9,7 @@ import {
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/storeHooks";
-import { fetchPharmacies, fetchPharmacyById, selectPostById } from "../../features/pharmacies/pharmaciesSlice";
+import { fetchPharmacies, fetchPharmacyById, selectPharmacyById } from "../../features/pharmacies/pharmaciesSlice";
 
 const Pharmacy = () => {
   const { id } = useParams();
@@ -20,7 +18,7 @@ const Pharmacy = () => {
   const dispatch = useAppDispatch();
   const pharmacyStatus = useAppSelector((state) => state.pharmacies.status);
   
-  const pharmacy = useAppSelector((state) => selectPostById(state, pharmacyId))
+  const pharmacy = useAppSelector((state) => selectPharmacyById(state, pharmacyId))
   
   useEffect(() => {
     if (pharmacyStatus === "idle") {
@@ -51,7 +49,10 @@ const Pharmacy = () => {
       <CardActions>
         {/* navigate(0) reloads the page to show all pharmacies*/}
         <Button size="small" onClick={async() => {navigate("/pharmacies"); navigate(0)}}>
-          Back
+          Back To Pharmacies
+        </Button>
+        <Button size="small" onClick={async() => {navigate(`/pharmacies/update/${id}`)}}>
+          Update
         </Button>
       </CardActions>
     </Fragment>

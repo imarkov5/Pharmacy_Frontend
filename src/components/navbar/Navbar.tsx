@@ -1,5 +1,5 @@
 import "./navbar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const links = [
   { href: "/", label: "Home" },
@@ -9,6 +9,7 @@ const links = [
 ];
 
 const Navbar = () => {
+  const navigate= useNavigate();
   return (
     <div className="navbar">
       <div className="brand">
@@ -18,7 +19,8 @@ const Navbar = () => {
         <ul>
           {links.map((item) => (
             <li key={item.href}>
-              <Link to={item.href}>{item.label}</Link>
+              {/* <Link to={item.href}>{item.label}</Link> */}
+              <Link to={item.href} onClick={() => {navigate(item.href); navigate(0)}}>{item.label}</Link>
             </li>
           ))}
         </ul>

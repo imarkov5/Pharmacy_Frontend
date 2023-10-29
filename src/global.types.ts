@@ -3,19 +3,19 @@ export interface IPharmacy {
     name: string;
     numberOfFilledPrescriptions: string;
     address: {
-      street: string;
-      city: string;
-      state: string;
-      zip: string;
+      street: string | undefined;
+      city: string | undefined;
+      state: string | undefined;
+      zip: string | undefined;
     };
   }
   export interface ICreatePharmacyDto {
-    name: string;
+    name: string | undefined;
     address: {
-      street: string;
-      city: string;
-      state: string;
-      zip: string;
+      street: string | undefined;
+      city: string | undefined;
+      state: string | undefined;
+      zip: string | undefined;
     };
   }
   export interface IPrescription {
