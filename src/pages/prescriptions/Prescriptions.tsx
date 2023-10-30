@@ -1,6 +1,6 @@
 import "./prescriptions.scss";
 import { Button, CircularProgress } from "@mui/material";
-import PrescriptionsGrid from "../../components/prescriptions/PrescriptionsGrid";
+import PrescriptionsGrid from "../../components/PrescriptionsGrid";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useGetAllPrescriptionsQuery } from "../../features/apiSlice";

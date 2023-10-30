@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
-import CustomLinearProgress from "./components/custom-linear-progress/CustomLinearProgress";
+import CustomLinearProgress from "./components/CustomLinearProgress";
 import Pharmacies from "./pages/pharmacies/Pharmacies";
 import Pharmacy from "./pages/pharmacies/Pharmacy";
 import AddPharmacy from "./pages/pharmacies/AddPharmacy";

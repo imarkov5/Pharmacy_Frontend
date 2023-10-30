@@ -51,6 +51,14 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Prescriptions"],
     }),
+    addPharmacist: builder.mutation({
+      query: (pharmacist) => ({
+        url: "pharmacist/add-pharmacist",
+        method: "POST",
+        body: pharmacist,
+      }),
+      invalidatesTags: ["Pharmacists"],
+    }),
 
     updatePharmacy: builder.mutation({
       query: (pharmacy) => ({
@@ -80,6 +88,7 @@ export const {
   useGetPharmacistByIdQuery,
   useAddPharmacyMutation,
   useAddPrescriptionMutation,
+  useAddPharmacistMutation,
   useUpdatePharmacyMutation,
   useDeletePharmacyMutation,
 } = apiSlice;

@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid/models";
-import { IPharmacist } from "../../global.types";
+import { IPharmacist } from "../global.types";
 
 const column: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },

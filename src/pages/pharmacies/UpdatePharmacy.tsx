@@ -55,7 +55,7 @@ const UpdatePharmacy = () => {
       return;
     }
     updatePharmacy(pharmacy);
-    redirect("/pharmacies");
+    redirect(`/pharmacies/${id}`);
   };
   const handleClickBackBtn = () => {
     redirect("/pharmacies");
@@ -64,7 +64,7 @@ const UpdatePharmacy = () => {
   return (
     <div className="content">
       <div className="add-pharmacy">
-      <h2>Update Pharmacy Name</h2>
+      <h2>Update Pharmacy #{id}</h2>
       <TextField fullWidth
         autoComplete="off"
         label="Pharmacy Name"
