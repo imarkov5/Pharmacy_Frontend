@@ -37,7 +37,7 @@ const column: GridColDef[] = [
     field: "isDispensed",
     headerName: "Is Dispensed",
     width: 100,
-    renderCell: (params) => (params.value === 0 ? "No" : "Yes"),
+    renderCell: (params) => (params.value == "0" ? "No" : "Yes"),
   },
   {
     field: "dispensedDate",

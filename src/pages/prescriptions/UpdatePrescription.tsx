@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./prescriptions.scss";
-import { ICreatePrescriptionDto } from "../../global.types";
+import { ICreatePrescriptionDto, IPrescription } from "../../global.types";
 import {
   Button,
   FormControl,
@@ -9,14 +9,16 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
-  useAddPrescriptionMutation,
   useGetAllPharmaciesQuery,
   useGetAllPharmacistsQuery,
+  useGetPharmacyByIdQuery,
+  useUpdatePrescriptionMutation,
 } from "../../features/apiSlice";
+import httpModule from "../../http.module";
 
-const AddPrescription = () => {
+const UpdatePrescription = () => {
   const [prescription, setPrescription] = useState<ICreatePrescriptionDto>({
     patientFirstName: "",
     patientLastName: "",
@@ -24,32 +26,38 @@ const AddPrescription = () => {
     drugStrength: "",
     dosage: "",
     quantity: "",
-    isDispensed: "0",
+    isDispensed: "",
     pharmacyId: "",
-    pharmacistId: null,
+    pharmacistId: "",
   });
-
-  const [addPrescription] = useAddPrescriptionMutation();
-  const { data: pharmacies } = useGetAllPharmaciesQuery();
-  const { data: pharmacists } = useGetAllPharmacistsQuery();
+  const { id } = useParams();
   const redirect = useNavigate();
 
+  const [updatePrescription] = useUpdatePrescriptionMutation();
+  const { data: pharmacy } = useGetPharmacyByIdQuery(prescription?.pharmacyId);
+  const { data: pharmacists } = useGetAllPharmacistsQuery();
+
+  useEffect(() => {
+    httpModule
+      .get<IPrescription>(`/Prescription/get-prescription/${id}`)
+      .then((response) => {
+        setPrescription(response.data);
+      })
+      .catch((error) => {
+        alert("Error");
+        console.log(error);
+      });
+  }, []);
+
   const handleClickSaveBtn = () => {
-    if (
-      prescription.patientFirstName === "" ||
-      prescription.patientLastName === "" ||
-      prescription.drugName === "" ||
-      prescription.drugStrength === "" ||
-      prescription.dosage === "" ||
-      prescription.quantity === "" ||
-      // prescription.isDispensed === "" ||
-      prescription.pharmacyId === ""
-    ) {
-      alert("Fill out all fields");
+    if (prescription.isDispensed == "1" && prescription.pharmacistId == "") {
+      alert(
+        "If prescription is dispensed, the pharmacist field can't be empty"
+      );
       return;
     }
-    addPrescription(prescription);
-    redirect("/prescriptions/");
+    updatePrescription(prescription);
+    redirect(`/prescriptions/${id}`);
   };
   const handleClickBackBtn = () => {
     redirect("/prescriptions");
@@ -58,80 +66,64 @@ const AddPrescription = () => {
   return (
     <div className="content">
       <div className="add-prescription">
-        <h2>Add New Prescription</h2>
+        <h2>Update Prescription #{id}</h2>
         <TextField
           fullWidth
           autoComplete="off"
           label="Patient First Name"
-          variant="outlined"
+          variant="filled"
           name="patientFirstName"
           value={prescription.patientFirstName}
-          onChange={(e) =>
-            setPrescription({
-              ...prescription,
-              patientFirstName: e.target.value,
-            })
-          }
         />
         <TextField
           fullWidth
           autoComplete="off"
           label="Patient Last Name"
-          variant="outlined"
+          variant="filled"
           name="patientLastName"
           value={prescription.patientLastName}
-          onChange={(e) =>
-            setPrescription({
-              ...prescription,
-              patientLastName: e.target.value,
-            })
-          }
         />
         <TextField
           fullWidth
           autoComplete="off"
           label="Drug Name"
-          variant="outlined"
+          variant="filled"
           name="drugName"
           value={prescription.drugName}
-          onChange={(e) =>
-            setPrescription({ ...prescription, drugName: e.target.value })
-          }
         />
         <TextField
           fullWidth
           autoComplete="off"
           label="Drug Strength"
-          variant="outlined"
+          variant="filled"
           name="drugStrength"
           value={prescription.drugStrength}
-          onChange={(e) =>
-            setPrescription({ ...prescription, drugStrength: e.target.value })
-          }
         />
         <TextField
           fullWidth
           autoComplete="off"
           label="Dosage"
-          variant="outlined"
+          variant="filled"
           name="dosage"
           value={prescription.dosage}
-          onChange={(e) =>
-            setPrescription({ ...prescription, dosage: e.target.value })
-          }
         />
         <TextField
           fullWidth
           autoComplete="off"
           label="Quantity"
-          variant="outlined"
+          variant="filled"
           name="quantity"
           value={prescription.quantity}
-          onChange={(e) =>
-            setPrescription({ ...prescription, quantity: e.target.value })
-          }
         />
-        {/* <FormControl fullWidth>
+        <TextField
+          fullWidth
+          autoComplete="off"
+          label="Pharmacy"
+          variant="filled"
+          name="pharmacy"
+          value={pharmacy?.name}
+        />
+        <FormControl fullWidth>
           <InputLabel>Is Dispensed</InputLabel>
           <Select
             value={prescription.isDispensed}
@@ -146,29 +138,9 @@ const AddPrescription = () => {
             <MenuItem value="0">No</MenuItem>
             <MenuItem value="1">Yes</MenuItem>
           </Select>
-        </FormControl> */}
-
-        <FormControl fullWidth>
-          <InputLabel>Pharmacy</InputLabel>
-          <Select
-            value={prescription.pharmacyId}
-            label="Pharmacy"
-            onChange={(e) =>
-              setPrescription({
-                ...prescription,
-                pharmacyId: e.target.value,
-              })
-            }
-          >
-            {pharmacies?.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
         </FormControl>
 
-        {/* <FormControl fullWidth>
+        <FormControl fullWidth>
           <InputLabel>Pharmacist</InputLabel>
           <Select
             value={prescription.pharmacistId}
@@ -186,7 +158,7 @@ const AddPrescription = () => {
               </MenuItem>
             ))}
           </Select>
-        </FormControl> */}
+        </FormControl>
 
         <div className="btns">
           <Button
@@ -209,4 +181,4 @@ const AddPrescription = () => {
   );
 };
 
-export default AddPrescription;
+export default UpdatePrescription;

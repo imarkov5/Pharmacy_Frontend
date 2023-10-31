@@ -40,7 +40,7 @@ export interface IPharmacy {
     quantity: string;
     isDispensed: string;
     pharmacyId: string;
-    pharmacistId: string;
+    pharmacistId: string | null;
   }
   export interface IPharmacist{
     id: number;

@@ -58,7 +58,7 @@ const Prescription = () => {
               <br />
               Quantity: {prescription.quantity}
               <br />
-              Is Dispensed: {prescription.isDispensed === "0" ? "NO" : "YES"}
+              Is Dispensed: {prescription.isDispensed == "0" ? "NO" : "YES"}
               <br />
               Dispensed Date:{" "}
               {prescription.dispensedDate === null
