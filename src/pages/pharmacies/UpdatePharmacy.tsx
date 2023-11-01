@@ -36,6 +36,7 @@ const UpdatePharmacy = () => {
   }, [pharmacyStatus, dispatch]);
 
   const [pharmacy, setPharmacy] = useState<ICreatePharmacyDto>({
+    id: pharmacyDB?.id,
     name: pharmacyDB?.name,
     address: {
       street: pharmacyDB?.address.street,
@@ -48,17 +49,17 @@ const UpdatePharmacy = () => {
   const [requestStatus, setRequestStatus] = useState("idle");
   const canSave = [pharmacy].every(Boolean) && requestStatus === "idle";
 
-  useEffect(() => {
-    httpModule
-      .get<IPharmacy>(`/Pharmacy/get-pharmacy/${id}`)
-      .then((response) => {
-        setPharmacy(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   httpModule
+  //     .get<IPharmacy>(`/Pharmacy/get-pharmacy/${id}`)
+  //     .then((response) => {
+  //       setPharmacy(response.data);
+  //     })
+  //     .catch((error) => {
+  //       alert("Error");
+  //       console.log(error);
+  //     });
+  // }, []);
 
   const handleClickSaveBtn = async () => {
     if (canSave) {
@@ -66,6 +67,7 @@ const UpdatePharmacy = () => {
         setRequestStatus("pending");
         await dispatch(updatePharmacy(pharmacy)).unwrap();
         setPharmacy({
+          id: undefined,
           name: "",
           address: {
             street: "",

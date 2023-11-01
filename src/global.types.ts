@@ -10,6 +10,7 @@ export interface IPharmacy {
     };
   }
   export interface ICreatePharmacyDto {
+    id: number | undefined;
     name: string | undefined;
     address: {
       street: string | undefined;
