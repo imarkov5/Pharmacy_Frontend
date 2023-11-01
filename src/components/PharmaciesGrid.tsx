@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid/models";
 import moment from "moment";
-import { IPharmacy } from "../../global.types";
+import { IPharmacy } from "../global.types";
 
 const column: GridColDef[] = [
   {
@@ -53,9 +53,6 @@ const column: GridColDef[] = [
       <div>
         <Button variant="outlined" color="primary">
           <a href={`pharmacies/${params.row.id}`}>View</a>
-        </Button>
-        <Button variant="outlined" color="secondary">
-          <a href={`pharmacies/update/${params.row.id}`}>Update</a>
         </Button>
       </div>
     ),

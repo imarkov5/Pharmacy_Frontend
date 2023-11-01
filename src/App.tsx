@@ -1,26 +1,32 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/navbar/Navbar.component";
-import CustomLinearProgress from "./components/custom-linear-progress/CustomLinearProgress.component";
+import Navbar from "./components/navbar/Navbar";
+import CustomLinearProgress from "./components/CustomLinearProgress";
 
-const Pharmacies = lazy(() => import("./pages/pharmacies/Pharmacies.page"));
+
+const Pharmacies = lazy(() => import("./pages/pharmacies/Pharmacies"));
 const Prescriptions = lazy(
-  () => import("./pages/prescriptions/Prescriptions.page")
+  () => import("./pages/prescriptions/Prescriptions")
 );
-const Pharmacists = lazy(() => import("./pages/pharmacists/Pharmacists.page"));
-const AddPharmacy = lazy(() => import("./pages/pharmacies/AddPharmacy.page"));
+const Pharmacists = lazy(() => import("./pages/pharmacists/Pharmacists"));
+
+const AddPharmacy = lazy(() => import("./pages/pharmacies/AddPharmacy"));
 const AddPrescription = lazy(
-  () => import("./pages/prescriptions/AddPrescription.page")
+  () => import("./pages/prescriptions/AddPrescription")
 );
 const AddPharmacist = lazy(
-  () => import("./pages/pharmacists/AddPharmacist.page")
+  () => import("./pages/pharmacists/AddPharmacist")
 );
-const Pharmacy = lazy(() => import("./pages/pharmacies/Pharmacy.page"));
+
+const Pharmacy = lazy(() => import("./pages/pharmacies/Pharmacy"));
 const Prescription = lazy(
-  () => import("./pages/prescriptions/Prescription.page")
+  () => import("./pages/prescriptions/Prescription")
 );
 const UpdatePharmacy = lazy(
-  () => import("./pages/pharmacies/UpdatePharmacy.page")
+  () => import("./pages/pharmacies/UpdatePharmacy")
+);
+const UpdatePrescription = lazy(
+  () => import("./pages/prescriptions/UpdatePrescription")
 );
 
 function App() {
@@ -40,6 +46,7 @@ function App() {
               <Route index element={<Prescriptions />} />
               <Route path="add" element={<AddPrescription />} />
               <Route path=":id" element={<Prescription />} />
+              <Route path="update/:id" element={<UpdatePrescription />} />
             </Route>
             <Route path="/pharmacists">
               <Route index element={<Pharmacists />} />

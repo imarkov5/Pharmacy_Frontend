@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetPharmacyByIdQuery, useUpdatePharmacyMutation } from "../../features/apiSlice";
+import { ICreatePharmacyDto } from "../../global.types";
 import "./pharmacies.scss";
-import { ICreatePharmacyDto, IPharmacy } from "../../global.types";
 import {
   Button,
   FormControl,
@@ -9,34 +11,27 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import httpModule from "../../http.module";
+
 
 const UpdatePharmacy = () => {
-    const [pharmacy, setPharmacy] = useState<ICreatePharmacyDto>({
-      name: "",
-      address: {
-        street: "",
-        city: "",
-        state: "",
-        zip: "",
-      },
-    });
+    
   const { id } = useParams();
   const redirect = useNavigate();
 
-  useEffect(() => {
-    httpModule
-      .get<IPharmacy>(`/Pharmacy/get-pharmacy/${id}`)
-      .then((response) => {
-        setPharmacy(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
+  const { data } = useGetPharmacyByIdQuery(id);
+  const [updatePharmacy] = useUpdatePharmacyMutation();
 
+  const [pharmacy, setPharmacy] = useState<ICreatePharmacyDto>({
+    id: data?.id,
+    name: data?.name,
+    address: {
+      street: data?.address.street,
+      city: data?.address.city,
+      state: data?.address.state,
+      zip: data?.address.zip,
+    },
+  });
+  
   const handleClickSaveBtn = () => {
     if (
       pharmacy?.name === "" ||
@@ -48,10 +43,8 @@ const UpdatePharmacy = () => {
       alert("Fill out all fields");
       return;
     }
-    httpModule
-      .put(`/Pharmacy/update-pharmacy/${id}`, pharmacy)
-      .then((response) => redirect("/pharmacies"))
-      .catch((error) => console.log(error));
+    updatePharmacy(pharmacy);
+    redirect(`/pharmacies/${id}`);
   };
   const handleClickBackBtn = () => {
     redirect("/pharmacies");
@@ -60,7 +53,7 @@ const UpdatePharmacy = () => {
   return (
     <div className="content">
       <div className="add-pharmacy">
-      <h2>Update Pharmacy Name</h2>
+      <h2>Update Pharmacy #{id}</h2>
       <TextField fullWidth
         autoComplete="off"
         label="Pharmacy Name"
@@ -141,7 +134,7 @@ const UpdatePharmacy = () => {
           color="secondary"
           onClick={handleClickBackBtn}
         >
-          Back
+          Cancel
         </Button>
       </div>
       </div>

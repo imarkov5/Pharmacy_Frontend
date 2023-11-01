@@ -1,10 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./prescriptions.scss";
-import {
-  IPharmacy,
-  ICreatePrescriptionDto,
-  IPharmacist,
-} from "../../global.types";
+import { ICreatePrescriptionDto } from "../../global.types";
 import {
   Button,
   FormControl,
@@ -14,48 +10,30 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import httpModule from "../../http.module";
+import {
+  useAddPrescriptionMutation,
+  useGetAllPharmaciesQuery,
+  useGetAllPharmacistsQuery,
+} from "../../features/apiSlice";
 
 const AddPrescription = () => {
   const [prescription, setPrescription] = useState<ICreatePrescriptionDto>({
+    id: undefined,
     patientFirstName: "",
     patientLastName: "",
     drugName: "",
     drugStrength: "",
     dosage: "",
     quantity: "",
-    isDispensed: "",
+    isDispensed: "0",
     pharmacyId: "",
-    pharmacistId: "",
+    pharmacistId: null,
   });
 
-  const [pharmacies, setPharmacies] = useState<IPharmacy[]>([]);
-  const [pharmacists, setPharmacists] = useState<IPharmacist[]>([]);
+  const [addPrescription] = useAddPrescriptionMutation();
+  const { data: pharmacies } = useGetAllPharmaciesQuery();
+  const { data: pharmacists } = useGetAllPharmacistsQuery();
   const redirect = useNavigate();
-
-  useEffect(() => {
-    httpModule
-      .get<IPharmacy[]>("/Pharmacy/get-all-pharmacies")
-      .then((response) => {
-        setPharmacies(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    httpModule
-      .get<IPharmacist[]>("/Pharmacist/get-all-pharmacists")
-      .then((response) => {
-        setPharmacists(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
 
   const handleClickSaveBtn = () => {
     if (
@@ -65,16 +43,14 @@ const AddPrescription = () => {
       prescription.drugStrength === "" ||
       prescription.dosage === "" ||
       prescription.quantity === "" ||
-      prescription.isDispensed === "" ||
+      // prescription.isDispensed === "" ||
       prescription.pharmacyId === ""
     ) {
       alert("Fill out all fields");
       return;
     }
-    httpModule
-      .post("/Prescription/add-prescription", prescription)
-      .then((response) => redirect("/prescriptions"))
-      .catch((error) => console.log(error));
+    addPrescription(prescription);
+    redirect("/prescriptions/");
   };
   const handleClickBackBtn = () => {
     redirect("/prescriptions");
@@ -156,7 +132,28 @@ const AddPrescription = () => {
             setPrescription({ ...prescription, quantity: e.target.value })
           }
         />
+
         <FormControl fullWidth>
+          <InputLabel>Pharmacy</InputLabel>
+          <Select
+            value={prescription.pharmacyId}
+            label="Pharmacy"
+            onChange={(e) =>
+              setPrescription({
+                ...prescription,
+                pharmacyId: e.target.value,
+              })
+            }
+          >
+            {pharmacies?.map((item) => (
+              <MenuItem key={item.id} value={item.id}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        {/* <FormControl fullWidth>
           <InputLabel>Is Dispensed</InputLabel>
           <Select
             value={prescription.isDispensed}
@@ -171,29 +168,9 @@ const AddPrescription = () => {
             <MenuItem value="0">No</MenuItem>
             <MenuItem value="1">Yes</MenuItem>
           </Select>
-        </FormControl>
+        </FormControl> */}
 
-        <FormControl fullWidth>
-          <InputLabel>Pharmacy</InputLabel>
-          <Select
-            value={prescription.pharmacyId}
-            label="Pharmacy"
-            onChange={(e) =>
-              setPrescription({
-                ...prescription,
-                pharmacyId: e.target.value,
-              })
-            }
-          >
-            {pharmacies.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl fullWidth>
+        {/* <FormControl fullWidth>
           <InputLabel>Pharmacist</InputLabel>
           <Select
             value={prescription.pharmacistId}
@@ -205,13 +182,13 @@ const AddPrescription = () => {
               })
             }
           >
-            {pharmacists.map((item) => (
+            {pharmacists?.map((item) => (
               <MenuItem key={item.id} value={item.id}>
                 {item.firstName + " " + item.lastName}
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         <div className="btns">
           <Button

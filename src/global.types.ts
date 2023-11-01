@@ -10,12 +10,13 @@ export interface IPharmacy {
     };
   }
   export interface ICreatePharmacyDto {
-    name: string;
+    id: number | undefined;
+    name: string | undefined;
     address: {
-      street: string;
-      city: string;
-      state: string;
-      zip: string;
+      street: string | undefined;
+      city: string | undefined;
+      state: string | undefined;
+      zip: string | undefined;
     };
   }
   export interface IPrescription {
@@ -32,15 +33,16 @@ export interface IPharmacy {
     pharmacistId: string;
   }
   export interface ICreatePrescriptionDto {
-    patientFirstName: string;
-    patientLastName: string;
-    drugName: string;
-    drugStrength: string;
-    dosage: string;
-    quantity: string;
-    isDispensed: string;
-    pharmacyId: string;
-    pharmacistId: string;
+    id: number | undefined;
+    patientFirstName: string | undefined;
+    patientLastName: string | undefined;
+    drugName: string | undefined;
+    drugStrength: string | undefined;
+    dosage: string | undefined;
+    quantity: string | undefined;
+    isDispensed: string | undefined;
+    pharmacyId: string | undefined;
+    pharmacistId: string | null | undefined;
   }
   export interface IPharmacist{
     id: number;
