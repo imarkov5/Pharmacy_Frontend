@@ -48,8 +48,11 @@ const Pharmacy = () => {
           </CardContent>
           <CardActions>
             <Button size="small" onClick={() => redirect("/pharmacies")}>
-              Back
+              Back To Pharmacies
             </Button>
+            <Button size="small" onClick={async() => {redirect(`/pharmacies/update/${id}`)}}>
+          Update
+        </Button>
           </CardActions>
         </Fragment>
       ) : null}

@@ -43,7 +43,7 @@ const Prescription = () => {
               color="text.secondary"
               gutterBottom
             >
-              Id: {prescription.id}
+              Prescription #{prescription.id}
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.primary">
               Patient Name: {prescription.patientFirstName}{" "}
@@ -73,8 +73,11 @@ const Prescription = () => {
           </CardContent>
           <CardActions>
             <Button size="small" onClick={() => redirect("/prescriptions")}>
-              Back
+              Back To Prescriptions
             </Button>
+            <Button size="small" onClick={async() => {redirect(`/prescriptions/update/${id}`)}}>
+          Update
+        </Button>
           </CardActions>
         </Fragment>
       ) : null}

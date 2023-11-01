@@ -68,9 +68,9 @@ const column: GridColDef[] = [
         <Button variant="outlined" color="primary">
           <a href={`prescriptions/${params.row.id}`}>View</a>
         </Button>
-        <Button variant="outlined" color="secondary">
+        {/* <Button variant="outlined" color="secondary">
           <a href={`prescriptions/update/${params.row.id}`}>Update</a>
-        </Button>
+        </Button> */}
       </div>
     ),
   },

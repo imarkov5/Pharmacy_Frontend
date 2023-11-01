@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./prescriptions.scss";
-import { ICreatePrescriptionDto, IPrescription } from "../../global.types";
+import { ICreatePrescriptionDto } from "../../global.types";
 import {
   Button,
   FormControl,
@@ -11,43 +11,35 @@ import {
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  useGetAllPharmaciesQuery,
   useGetAllPharmacistsQuery,
   useGetPharmacyByIdQuery,
+  useGetPrescriptionByIdQuery,
   useUpdatePrescriptionMutation,
 } from "../../features/apiSlice";
-import httpModule from "../../http.module";
 
 const UpdatePrescription = () => {
-  const [prescription, setPrescription] = useState<ICreatePrescriptionDto>({
-    patientFirstName: "",
-    patientLastName: "",
-    drugName: "",
-    drugStrength: "",
-    dosage: "",
-    quantity: "",
-    isDispensed: "",
-    pharmacyId: "",
-    pharmacistId: "",
-  });
+  
   const { id } = useParams();
   const redirect = useNavigate();
 
+  const { data } = useGetPrescriptionByIdQuery(id)
   const [updatePrescription] = useUpdatePrescriptionMutation();
-  const { data: pharmacy } = useGetPharmacyByIdQuery(prescription?.pharmacyId);
+  const { data: pharmacy } = useGetPharmacyByIdQuery(data?.pharmacyId);
   const { data: pharmacists } = useGetAllPharmacistsQuery();
 
-  useEffect(() => {
-    httpModule
-      .get<IPrescription>(`/Prescription/get-prescription/${id}`)
-      .then((response) => {
-        setPrescription(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
+  const [prescription, setPrescription] = useState<ICreatePrescriptionDto>({
+    id: data?.id,
+    patientFirstName: data?.patientFirstName,
+    patientLastName: data?.patientLastName,
+    drugName: data?.drugName,
+    drugStrength: data?.drugStrength,
+    dosage: data?.dosage,
+    quantity: data?.quantity,
+    isDispensed: data?.isDispensed,
+    pharmacyId: data?.pharmacyId,
+    pharmacistId: data?.pharmacistId,
+  });
+
 
   const handleClickSaveBtn = () => {
     if (prescription.isDispensed == "1" && prescription.pharmacistId == "") {
@@ -173,7 +165,7 @@ const UpdatePrescription = () => {
             color="secondary"
             onClick={handleClickBackBtn}
           >
-            Back
+            Cancel
           </Button>
         </div>
       </div>

@@ -54,9 +54,6 @@ const column: GridColDef[] = [
         <Button variant="outlined" color="primary">
           <a href={`pharmacies/${params.row.id}`}>View</a>
         </Button>
-        <Button variant="outlined" color="secondary">
-          <a href={`pharmacies/update/${params.row.id}`}>Update</a>
-        </Button>
       </div>
     ),
   },

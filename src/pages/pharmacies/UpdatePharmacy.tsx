@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetPharmacyByIdQuery, useUpdatePharmacyMutation } from "../../features/apiSlice";
+import { ICreatePharmacyDto } from "../../global.types";
 import "./pharmacies.scss";
-import { ICreatePharmacyDto, IPharmacy } from "../../global.types";
 import {
   Button,
   FormControl,
@@ -9,40 +11,27 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetPharmacyByIdQuery, useUpdatePharmacyMutation } from "../../features/apiSlice";
-import httpModule from "../../http.module";
+
 
 const UpdatePharmacy = () => {
-    const [pharmacy, setPharmacy] = useState<ICreatePharmacyDto>({
-      name: "",
-      address: {
-        street: "",
-        city: "",
-        state: "",
-        zip: "",
-      },
-    });
+    
   const { id } = useParams();
   const redirect = useNavigate();
 
-  //const { data , isLoading } = useGetPharmacyByIdQuery(id);
+  const { data } = useGetPharmacyByIdQuery(id);
   const [updatePharmacy] = useUpdatePharmacyMutation();
 
-  useEffect(() => {
-    httpModule
-      .get<IPharmacy>(`/Pharmacy/get-pharmacy/${id}`)
-      .then((response) => {
-        setPharmacy(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
+  const [pharmacy, setPharmacy] = useState<ICreatePharmacyDto>({
+    id: data?.id,
+    name: data?.name,
+    address: {
+      street: data?.address.street,
+      city: data?.address.city,
+      state: data?.address.state,
+      zip: data?.address.zip,
+    },
+  });
   
-  
-
   const handleClickSaveBtn = () => {
     if (
       pharmacy?.name === "" ||
@@ -145,7 +134,7 @@ const UpdatePharmacy = () => {
           color="secondary"
           onClick={handleClickBackBtn}
         >
-          Back
+          Cancel
         </Button>
       </div>
       </div>

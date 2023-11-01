@@ -1,10 +1,10 @@
 import { useState } from "react";
-import "./pharmacists.scss";
-import { ICreatePharmacistDto } from "../../global.types";
-import { Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import httpModule from "../../http.module";
 import { useAddPharmacistMutation } from "../../features/apiSlice";
+import { ICreatePharmacistDto } from "../../global.types";
+import "./pharmacists.scss";
+import { Button, TextField } from "@mui/material";
+
 
 const AddPharmacist = () => {
   const [pharmacist, setPharmacist] = useState<ICreatePharmacistDto>({
@@ -19,10 +19,6 @@ const AddPharmacist = () => {
       alert("Fill out all fields");
       return;
     }
-    // httpModule
-    //   .post("/Pharmacist/add-pharmacist", pharmacist)
-    //   .then((response) => redirect("/pharmacists"))
-    //   .catch((error) => console.log(error));
     addPharmacist(pharmacist);
     redirect("/pharmacists");
   };

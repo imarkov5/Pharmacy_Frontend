@@ -14,6 +14,7 @@ import { useAddPharmacyMutation } from "../../features/apiSlice";
 
 const AddPharmacy = () => {
   const [pharmacy, setPharmacy] = useState<ICreatePharmacyDto>({
+    id: undefined,
     name: "",
     address: {
       street: "",

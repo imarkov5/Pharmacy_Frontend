@@ -18,6 +18,7 @@ import {
 
 const AddPrescription = () => {
   const [prescription, setPrescription] = useState<ICreatePrescriptionDto>({
+    id: undefined,
     patientFirstName: "",
     patientLastName: "",
     drugName: "",
@@ -131,22 +132,6 @@ const AddPrescription = () => {
             setPrescription({ ...prescription, quantity: e.target.value })
           }
         />
-        {/* <FormControl fullWidth>
-          <InputLabel>Is Dispensed</InputLabel>
-          <Select
-            value={prescription.isDispensed}
-            label="Is Dispensed"
-            onChange={(e) =>
-              setPrescription({
-                ...prescription,
-                isDispensed: e.target.value,
-              })
-            }
-          >
-            <MenuItem value="0">No</MenuItem>
-            <MenuItem value="1">Yes</MenuItem>
-          </Select>
-        </FormControl> */}
 
         <FormControl fullWidth>
           <InputLabel>Pharmacy</InputLabel>
@@ -167,6 +152,23 @@ const AddPrescription = () => {
             ))}
           </Select>
         </FormControl>
+
+        {/* <FormControl fullWidth>
+          <InputLabel>Is Dispensed</InputLabel>
+          <Select
+            value={prescription.isDispensed}
+            label="Is Dispensed"
+            onChange={(e) =>
+              setPrescription({
+                ...prescription,
+                isDispensed: e.target.value,
+              })
+            }
+          >
+            <MenuItem value="0">No</MenuItem>
+            <MenuItem value="1">Yes</MenuItem>
+          </Select>
+        </FormControl> */}
 
         {/* <FormControl fullWidth>
           <InputLabel>Pharmacist</InputLabel>
